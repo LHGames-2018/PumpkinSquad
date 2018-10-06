@@ -1,23 +1,23 @@
 from helper import *
 
-def get_path(curr_pos, tar_pos):
+def get_path(curr_pos, tar_pos, map):
     delta = curr_pos - tar_pos
-    if delta.x < 0:
+    if delta.x < 0 and delta in map[0]:
         return Point(1, 0)
-    elif delta.x > 0:
+    elif delta.x > 0 and delta in map[0]:
         return Point(-1, 0)
-    elif delta.y < 0:
+    elif delta.y < 0 and delta in map[0]:
         return Point(0, 1)
     else:
         return Point(0, -1)
 
 
-def get_home(curr_pos, target):
-    return get_path(curr_pos, target)
+def go_home(curr_pos, target, map):
+    return get_path(curr_pos, target, map)
 
 
-def go_mine(curr_pos, target):
-    return get_path(curr_pos, target)
+def go_mine(curr_pos, target, map):
+    return get_path(curr_pos, target, map)
 
 
 class Bot:
@@ -41,24 +41,23 @@ class Bot:
         house_loc = self.PlayerInfo.HouseLocation
 
         # Create map array
-        map_info = {1: [], 2: [], 3: [], 4: [], 5: [], 6: []}
+        map_info = {0:[], 1: [], 2: [], 3: [], 4: [], 5: [], 6: []}
         map_weight = []
         for y in range(gameMap.yMin, gameMap.yMax):
             map_weight.append([])
             for x in range(gameMap.xMin, gameMap.xMax):
                 tile_type = gameMap.getTileAt(Point(x, y)).value
-                if tile_type in [0, 2, 4, 5, 6]:
-                    map_weight[y - gameMap.yMin].append((1))
-                elif tile_type == 3:
-                    map_weight[y - gameMap.yMin].append((999999))
-                elif tile_type == 1:
-                    map_weight[y - gameMap.yMin].append((9))
+                # if tile_type in [0, 2, 4, 5, 6]:
+                #     map_weight[y - gameMap.yMin].append((1))
+                # elif tile_type == 3:
+                #     map_weight[y - gameMap.yMin].append((999999))
+                # elif tile_type == 1:
+                #     map_weight[y - gameMap.yMin].append((9))
 
-                if tile_type != 0:
-                    map_info[tile_type].append(Point(x, y))
+                map_info[tile_type].append(Point(x, y))
 
         if self.PlayerInfo.CarriedResources == self.PlayerInfo.CarryingCapacity:
-            return create_move_action(get_home(curr_pos, house_loc))
+            return create_move_action(go_home(curr_pos, house_loc, map_info))
         else:
             closest_mine = Point(9999999999, 999999999)
 
@@ -71,7 +70,7 @@ class Bot:
             if delta in [Point(0,1), Point(0,-1), Point(1,0), Point(-1,0)]:
                 return create_collect_action(delta)
 
-            return create_move_action(go_mine(curr_pos, closest_mine))
+            return create_move_action(go_mine(curr_pos, closest_mine, map_info))
 
 
 
