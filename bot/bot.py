@@ -42,6 +42,37 @@ class Bot:
 
                 map_info[tile_type].append(Point(x, y))
 
+        print("CollectingSpeed:", self.PlayerInfo.getUpgradeLevel(UpgradeType.CollectingSpeed),
+              "\nCarryingCapacity:",self.PlayerInfo.getUpgradeLevel(UpgradeType.CarryingCapacity))
+
+        if curr_pos == house_loc and self.PlayerInfo.TotalResources >= 10000:
+            if self.PlayerInfo.getUpgradeLevel(UpgradeType.CollectingSpeed) < 1:
+                return create_upgrade_action(UpgradeType.CollectingSpeed)
+
+            if self.PlayerInfo.getUpgradeLevel(UpgradeType.CarryingCapacity) < 1:
+                return create_upgrade_action(UpgradeType.CarryingCapacity)
+
+        if curr_pos == house_loc and self.PlayerInfo.TotalResources >= 15000:
+            if self.PlayerInfo.getUpgradeLevel(UpgradeType.CollectingSpeed) < 2:
+                return create_upgrade_action(UpgradeType.CollectingSpeed)
+
+            if self.PlayerInfo.getUpgradeLevel(UpgradeType.CarryingCapacity) < 2:
+                return create_upgrade_action(UpgradeType.CarryingCapacity)
+
+        if curr_pos == house_loc and self.PlayerInfo.TotalResources >= 25000:
+            if self.PlayerInfo.getUpgradeLevel(UpgradeType.CollectingSpeed) < 3:
+                return create_upgrade_action(UpgradeType.CollectingSpeed)
+
+            if self.PlayerInfo.getUpgradeLevel(UpgradeType.CarryingCapacity) < 3:
+                return create_upgrade_action(UpgradeType.CarryingCapacity)
+
+        if curr_pos == house_loc and self.PlayerInfo.TotalResources >= 50000:
+            if self.PlayerInfo.getUpgradeLevel(UpgradeType.CollectingSpeed) < 4:
+                return create_upgrade_action(UpgradeType.CollectingSpeed)
+
+            if self.PlayerInfo.getUpgradeLevel(UpgradeType.CarryingCapacity) < 4:
+                return create_upgrade_action(UpgradeType.CarryingCapacity)
+
         if self.PlayerInfo.CarriedResources == self.PlayerInfo.CarryingCapacity:
             try_move = get_path(curr_pos, house_loc)
             if curr_pos + try_move in map_info[1]:
