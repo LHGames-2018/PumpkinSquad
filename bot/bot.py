@@ -1,8 +1,4 @@
 from helper import *
-from pypaths import astar
-import numpy as np
-import networkx as nx
-
 
 def get_path(curr_pos, tar_pos):
     delta = curr_pos - tar_pos
@@ -51,12 +47,6 @@ class Bot:
             map_weight.append([])
             for x in range(gameMap.xMin, gameMap.xMax):
                 tile_type = gameMap.getTileAt(Point(x, y)).value
-                if tile_type in [0, 2, 4, 5, 6]:
-                    map_weight[y - gameMap.yMin].append((1))
-                elif tile_type == 3:
-                    map_weight[y - gameMap.yMin].append((999999))
-                elif tile_type == 1:
-                    map_weight[y - gameMap.yMin].append((9))
 
                 if tile_type != 0:
                     map_info[tile_type].append(Point(x, y))
