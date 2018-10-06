@@ -1,4 +1,5 @@
 from helper import *
+from pypaths import astar
 
 
 class Bot:
@@ -18,6 +19,19 @@ class Bot:
             :param gameMap: The gamemap.
             :param visiblePlayers:  The list of visible players.
         """
+
+        # Create map array
+        map_vision = []
+        for y in range(gameMap.yMin,gameMap.yMax):
+            map_vision.append([])
+            for x in range(gameMap.xMin, gameMap.xMax):
+                map_vision[y - gameMap.yMin].append(gameMap.getTileAt(Point(x,y)).value)
+
+        # Show map
+        # for x in map_vision:
+        #     for y in x:
+        #         print(y,end="")
+        #     print()
 
         # Write your bot here. Use functions from aiHelper to instantiate your actions.
         return create_move_action(Point(1, 0))
