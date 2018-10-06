@@ -12,14 +12,6 @@ def get_path(curr_pos, tar_pos):
         return Point(0, -1)
 
 
-def get_home(curr_pos, target):
-    return get_path(curr_pos, target)
-
-
-def go_mine(curr_pos, target):
-    return get_path(curr_pos, target)
-
-
 class Bot:
     def __init__(self):
         pass
@@ -41,18 +33,20 @@ class Bot:
         house_loc = self.PlayerInfo.HouseLocation
 
         # Create map array
-        map_info = {1: [], 2: [], 3: [], 4: [], 5: [], 6: []}
+        map_info = {0: [], 1: [], 2: [], 3: [], 4: [], 5: [], 6: []}
         map_weight = []
         for y in range(gameMap.yMin, gameMap.yMax):
             map_weight.append([])
             for x in range(gameMap.xMin, gameMap.xMax):
                 tile_type = gameMap.getTileAt(Point(x, y)).value
 
-                if tile_type != 0:
-                    map_info[tile_type].append(Point(x, y))
+                map_info[tile_type].append(Point(x, y))
 
         if self.PlayerInfo.CarriedResources == self.PlayerInfo.CarryingCapacity:
-            return create_move_action(get_home(curr_pos, house_loc))
+            try_move = get_path(curr_pos, house_loc)
+            if curr_pos + try_move in map_info[1]:
+                return create_attack_action(try_move)
+            return create_move_action(get_path(curr_pos, house_loc))
         else:
             closest_mine = Point(9999999999, 999999999)
 
@@ -65,7 +59,11 @@ class Bot:
             if delta in [Point(0,1), Point(0,-1), Point(1,0), Point(-1,0)]:
                 return create_collect_action(delta)
 
-            return create_move_action(go_mine(curr_pos, closest_mine))
+            try_move = get_path(curr_pos, closest_mine)
+            if curr_pos + try_move in map_info[1]:
+                return create_attack_action(try_move)
+
+            return create_move_action(try_move)
 
 
 
