@@ -1,8 +1,4 @@
 from helper import *
-from pypaths import astar
-import numpy as np
-import networkx as nx
-
 
 def get_path(curr_pos, tar_pos):
     delta = curr_pos - tar_pos
