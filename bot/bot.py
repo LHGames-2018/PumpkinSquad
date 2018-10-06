@@ -29,20 +29,23 @@ class Bot:
             for x in range(gameMap.xMin, gameMap.xMax):
                 map_vision[y - gameMap.yMin].append(gameMap.getTileAt(Point(x,y)).value)
 
+        # scan surrounding area
+        currentX = self.x
+        currentY = self.y
+        pos = [currentX, currentY]
+
         # initialize direction
         # player is in constant motion
 
         # MOVE
 
         # while the ADJACENT TILE TO THE RIGHT is empty, move 1
-        while self.x(TileContent) == 0:
-            
+        while self.x + 1 == 0:
+
             # coordinates in (x,y)
             # x increasing left to right
             # y increasing top to bottom
-            create_move_action(1,0)
-
-
+            create_move_action(1, 0)
 
         # ATTACK
 
