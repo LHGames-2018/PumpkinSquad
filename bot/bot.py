@@ -73,6 +73,13 @@ class Bot:
             if self.PlayerInfo.getUpgradeLevel(UpgradeType.CarryingCapacity) < 4:
                 return create_upgrade_action(UpgradeType.CarryingCapacity)
 
+        if curr_pos == house_loc and self.PlayerInfo.TotalResources >= 100000:
+            if self.PlayerInfo.getUpgradeLevel(UpgradeType.CollectingSpeed) < 5:
+                return create_upgrade_action(UpgradeType.CollectingSpeed)
+
+            if self.PlayerInfo.getUpgradeLevel(UpgradeType.CarryingCapacity) < 5:
+                return create_upgrade_action(UpgradeType.CarryingCapacity)
+
         if self.PlayerInfo.CarriedResources == self.PlayerInfo.CarryingCapacity:
             try_move = get_path(curr_pos, house_loc)
             if curr_pos + try_move in map_info[1]:
